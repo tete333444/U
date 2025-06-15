@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết món ăn</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div style="max-width: 600px; margin: auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
+    <h1 id="mon-title">Tên món</h1>
+    <img id="mon-img" src="" alt="Món ăn" style="width: 100%; border-radius: 12px; max-height: 300px; object-fit: cover;">
+    <p id="mon-price" style="font-size: 1.2em; font-weight: bold;"></p>
+    <p id="mon-note" style="color: #666;"></p>
+
+    <input type="number" id="soLuong" placeholder="Số lượng" style="padding:10px; margin: 10px; width: 80%;" min="1" />
+    <input type="text" id="soBan" placeholder="Số bàn" style="padding:10px; margin: 10px; width: 80%;" />
+
+    <br>
+    <button onclick="guiZalo()">📱 Gửi đơn qua Zalo</button>
+  </div>
+
+  <script>
+    const data = {
+      "pho-bo": {
+        title: "🍜 Phở Bò",
+        price: "40.000đ",
+        priceRaw: 40000,
+        img: "https://i.imgur.com/kd7FZzB.jpg",
+        note: "🌶 Món cay nhẹ - Có thể bỏ hành"
+      },
+      "com-tam": {
+        title: "🍛 Cơm Tấm",
+        price: "35.000đ",
+        priceRaw: 35000,
+        img: "https://i.imgur.com/mZBYEyx.jpg",
+        note: "🍳 Có trứng, chả – Không cay"
+      },
+      "bun-cha": {
+        title: "🥬 Bún Chả",
+        price: "45.000đ",
+        priceRaw: 45000,
+        img: "https://i.imgur.com/JB3fx1m.jpg",
+        note: "🥗 Nhiều rau – Có thể ăn chay"
+      }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get("name");
+
+    if (data[name]) {
+      const mon = data[name];
+      document.getElementById("mon-title").textContent = mon.title;
+      document.getElementById("mon-img").src = mon.img;
+      document.getElementById("mon-price").textContent = "Giá: " + mon.price;
+      document.getElementById("mon-note").textContent = mon.note;
+    }
+
+    function guiZalo() {
+      const sl = document.getElementById("soLuong").value || "1";
+      const ban = document.getElementById("soBan").value || "Không rõ";
+      const mon = data[name];
+      const msg = encodeURIComponent(`Đặt ${mon.title} x${sl} (bàn ${ban})`);
+      const link = "https://zalo.me/0867673373?message=" + msg;
+      window.open(link, "_blank");
+    }
+  </script>
+</body>
+</html>
